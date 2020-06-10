@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using ProCienciaWeb.Contracts;
-using ProCienciaWeb.Concrete;
+using ProCienciaWeb.API;
+using ProCienciaWeb.Data;
 
 namespace ProCienciaWeb
 {
@@ -23,18 +22,15 @@ namespace ProCienciaWeb
         }
 
         public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
-            services.AddDbContext<DataAccess.AppContext>(options =>
-                          options.UseSqlServer(
-                              Configuration.GetConnectionString("DefaultConnection")));
-            //Article service  
-            services.AddScoped<IArticleManager, ArticleManager>();
-            //Register dapper in scope  
-            services.AddScoped<IDapperManager, DapperManager>();
+            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<ApiService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,83 @@
+﻿@page "/listaprojetos"
+
+@inject ApiService servicoProjeto
+
+<h3>Cadastro de Projetos</h3>
+
+<div>
+    <a class="btn btn-primary" href='/addProjeto'>Incluir</a>
+</div>
+<br />
+
+@if (listaProjetos == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <div class="row col-md-5 pull-right">
+        <input type="text" id="txtSearch" placeholder="Área de conhecimento..." class="form-control" @bind="SearchTerm" @bind:event="oninput" />
+    </div>
+    <table class="table table-sm table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Área de Conhecimento</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (listaProjetos == null || listaProjetos.Count == 0)
+            {
+                <tr>
+                    <td colspan="4">
+                        Nenhum Projeto Científico foi cadastrado.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var projeto in listaProjetos)
+                {
+                    <tr>
+                        <td class="col-md-4">@projeto.Titulo</td>
+                        <td class="col-md-4">@projeto.Autor</td>
+                        <td class="col-md-3">@projeto.SubArea.Nome</td>
+                        <td class="col-md-1">
+                            <a class="btn btn-primary btn-sm" href='/editarprojeto/@projeto.ProjetoId'>Editar</a>|
+                            <a class="btn btn-danger btn-sm" @onclick="() => ExcluirProjeto(projeto.ProjetoId)">Excluir</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string searchTerm;
+    private string SearchTerm
+    {
+        get { return searchTerm; }
+        set { searchTerm = value; FilterRecords(); }
+    }
+
+    private ObservableCollection<Projeto> listaProjetos;
+    Projeto projeto = new Projeto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaProjetos = await servicoProjeto.ObterProjetos();
+    }
+
+    public void FilterRecords()
+    {
+        this.OnInitializedAsync().Wait();
+    }
+
+    private async Task ExcluirProjeto(int id)
+    {
+
+    }
+}
