@@ -21,7 +21,17 @@ namespace ProCienciaWeb.API
             return listaProjetos;
         }
 
-        public static async Task<ObservableCollection<Area>> ObterAreas()
+        public async Task<Projeto> ObterProjeto(int projetoId)
+        {
+            string url = UrlServico + "/api/Projetos/" + projetoId.ToString();
+            var response = await client.GetStringAsync(url);
+
+            Projeto projeto = JsonConvert.DeserializeObject<Projeto>(response);
+
+            return projeto;
+        }
+
+        public async Task<ObservableCollection<Area>> ObterAreas()
         {
             string url = UrlServico + "/api/Areas";
             var response = await client.GetStringAsync(url);
@@ -31,7 +41,7 @@ namespace ProCienciaWeb.API
             return listaAreas;
         }
 
-        public static async Task<ObservableCollection<SubArea>> ObterSubAreas()
+        public async Task<ObservableCollection<SubArea>> ObterSubAreas()
         {
             string url = UrlServico + "/api/SubAreas";
             var response = await client.GetStringAsync(url);
@@ -41,7 +51,7 @@ namespace ProCienciaWeb.API
             return listaSubAreas;
         }
 
-        public static async Task<ObservableCollection<Instituicao>> ObterInstituicoes()
+        public async Task<ObservableCollection<Instituicao>> ObterInstituicoes()
         {
             string url = UrlServico + "/api/Instituicoes";
             var response = await client.GetStringAsync(url);

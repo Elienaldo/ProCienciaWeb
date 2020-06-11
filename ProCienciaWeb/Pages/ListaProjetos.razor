@@ -1,11 +1,12 @@
 ﻿@page "/listaprojetos"
 
+@using System
 @inject ApiService servicoProjeto
 
 <h3>Cadastro de Projetos</h3>
 
 <div>
-    <a class="btn btn-primary" href='/addProjeto'>Incluir</a>
+    <a class="btn btn-primary" href='/incluirprojeto'>Novo Projeto</a>
 </div>
 <br />
 
@@ -16,15 +17,15 @@
 else
 {
     <div class="row col-md-5 pull-right">
-        <input type="text" id="txtSearch" placeholder="Área de conhecimento..." class="form-control" @bind="SearchTerm" @bind:event="oninput" />
+        <input type="text" id="txtSearch" placeholder="Área de conhecimento..." class="form-control" @bind="AreaPesquisada" @bind:event="oninput" />
     </div>
     <table class="table table-sm table-bordered table-hover">
         <thead>
             <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Área de Conhecimento</th>
-                <th>Ação</th>
+                <th class="col-md-4">Título</th>
+                <th class="col-md-4">Autor</th>
+                <th class="col-md-2">Área de Conhecimento</th>
+                <th class="col-md-2">Ação</th>
             </tr>
         </thead>
         <tbody>
@@ -43,8 +44,8 @@ else
                     <tr>
                         <td class="col-md-4">@projeto.Titulo</td>
                         <td class="col-md-4">@projeto.Autor</td>
-                        <td class="col-md-3">@projeto.SubArea.Nome</td>
-                        <td class="col-md-1">
+                        <td class="col-md-2">@projeto.SubArea.Nome</td>
+                        <td class="col-md-2">
                             <a class="btn btn-primary btn-sm" href='/editarprojeto/@projeto.ProjetoId'>Editar</a>|
                             <a class="btn btn-danger btn-sm" @onclick="() => ExcluirProjeto(projeto.ProjetoId)">Excluir</a>
                         </td>
@@ -56,11 +57,12 @@ else
 }
 
 @code {
-    private string searchTerm;
-    private string SearchTerm
+    private string areaPesquisada;
+
+    private string AreaPesquisada
     {
-        get { return searchTerm; }
-        set { searchTerm = value; FilterRecords(); }
+        get { return areaPesquisada; }
+        set { areaPesquisada = value; FiltrarProjetos(); }
     }
 
     private ObservableCollection<Projeto> listaProjetos;
@@ -69,9 +71,17 @@ else
     protected override async Task OnInitializedAsync()
     {
         listaProjetos = await servicoProjeto.ObterProjetos();
+
+        //AreaPesquisada = "eng";
+
+        if (AreaPesquisada != null)
+        {
+            listaProjetos = new ObservableCollection<Projeto>(listaProjetos.Where(p => p.SubArea.Nome.ToLower().Contains(AreaPesquisada.ToLower()))
+                    .OrderBy(a => a.Autor));
+        }
     }
 
-    public void FilterRecords()
+    public void FiltrarProjetos()
     {
         this.OnInitializedAsync().Wait();
     }

@@ -12,7 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\IncluirProjeto.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Pages\Component.razor" />
+    <Content Remove="Pages\IncluirProjeto.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

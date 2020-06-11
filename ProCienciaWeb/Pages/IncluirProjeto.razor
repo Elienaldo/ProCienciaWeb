@@ -1,17 +1,16 @@
-﻿@page "/editarprojeto/{projetoId}"
+﻿@page "/incluirprojeto"
 
 @inject ApiService servicoProjeto
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
-<h3>Editar Projeto</h3>
+<h3>Incluir Projeto</h3>
 
-@if (projeto == null)
+@if (listaSubArea == null)
 {
     <p><em>Carregando...</em></p>
 }
 else
 {
-
     <form>
         <div class="form-group">
             <label for="Titulo">Titulo</label>
@@ -47,28 +46,23 @@ else
             <textarea class="form-control" id="Resumo" rows="5" @bind="@projeto.Resumo"></textarea>
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-primary" @onclick="AlterarProjeto">Salvar</button>
+            <button type="button" class="btn btn-primary" @onclick="SalvarProjeto">Salvar</button>
             <button type="button" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
         </div>
     </form>
 }
 
-@code {
+    @code {
 
-    [Parameter]
-    public string projetoId { get; set; }
-
-    public ObservableCollection<SubArea> listaSubArea;
-    public Projeto projeto;
+public ObservableCollection<SubArea> listaSubArea;
+    public Projeto projeto = new Projeto();
 
     protected override async Task OnInitializedAsync()
     {
         listaSubArea = await servicoProjeto.ObterSubAreas();
-
-        projeto = await servicoProjeto.ObterProjeto(Convert.ToInt32(projetoId));
     }
 
-    protected async Task AlterarProjeto()
+    protected async Task SalvarProjeto()
     {
         //await servicoProjeto.Update(projeto);
         navigationManager.NavigateTo("/listaprojetos");
@@ -81,4 +75,4 @@ else
 
 
 
-}
+    }
