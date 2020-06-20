@@ -22,10 +22,10 @@ else
     <table class="table table-sm table-bordered table-hover">
         <thead>
             <tr>
-                <th class="col-md-4">Título</th>
-                <th class="col-md-4">Autor</th>
-                <th class="col-md-2">Área de Conhecimento</th>
-                <th class="col-md-2">Ação</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Área de Conhecimento</th>
+                <th>Ação</th>
             </tr>
         </thead>
         <tbody>
@@ -42,10 +42,10 @@ else
                 foreach (var projeto in listaProjetos)
                 {
                     <tr>
-                        <td class="col-md-4">@projeto.Titulo</td>
-                        <td class="col-md-4">@projeto.Autor</td>
-                        <td class="col-md-2">@projeto.SubArea.Nome</td>
-                        <td class="col-md-2">
+                        <td class="col-md">@projeto.Titulo</td>
+                        <td class="col-md">@projeto.Autor</td>
+                        <td class="col-md">@projeto.SubArea.Nome</td>
+                        <td class="col-md">
                             <a class="btn btn-primary btn-sm" href='/editarprojeto/@projeto.ProjetoId'>Editar</a>|
                             <a class="btn btn-danger btn-sm" @onclick="() => ExcluirProjeto(projeto.ProjetoId)">Excluir</a>
                         </td>
@@ -66,7 +66,6 @@ else
     }
 
     private ObservableCollection<Projeto> listaProjetos;
-    Projeto projeto = new Projeto();
 
     protected override async Task OnInitializedAsync()
     {

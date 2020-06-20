@@ -54,24 +54,24 @@ else
 
     @code {
 
-public ObservableCollection<SubArea> listaSubArea;
-    public Projeto projeto = new Projeto();
+        public ObservableCollection<SubArea> listaSubArea;
+        public Projeto projeto = new Projeto();
 
-    protected override async Task OnInitializedAsync()
-    {
-        listaSubArea = await servicoProjeto.ObterSubAreas();
-    }
+        protected override async Task OnInitializedAsync()
+        {
+            listaSubArea = await servicoProjeto.ObterSubAreas();
+        }
 
-    protected async Task SalvarProjeto()
-    {
-        //await servicoProjeto.Update(projeto);
-        navigationManager.NavigateTo("/listaprojetos");
-    }
+        protected async Task SalvarProjeto()
+        {
+            await servicoProjeto.IncluirProjeto(projeto);
+            navigationManager.NavigateTo("/listaprojetos");
+        }
 
-    void Cancelar()
-    {
-        navigationManager.NavigateTo("/listaprojetos");
-    }
+        void Cancelar()
+        {
+            navigationManager.NavigateTo("/listaprojetos");
+        }
 
 
 

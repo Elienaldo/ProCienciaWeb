@@ -3,6 +3,7 @@ using ProCienciaWeb.Models;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace ProCienciaWeb.API
 {
@@ -29,6 +30,16 @@ namespace ProCienciaWeb.API
             Projeto projeto = JsonConvert.DeserializeObject<Projeto>(response);
 
             return projeto;
+        }
+
+        public async Task IncluirProjeto(Projeto projeto)
+        {
+            string url = UrlServico + "/api/Projetos/";
+
+            var json = JsonConvert.SerializeObject(projeto);
+            var dados = new StringContent(json, Encoding.UTF8, "application/json");
+
+            await client.PostAsync(url, dados);
         }
 
         public async Task<ObservableCollection<Area>> ObterAreas()
