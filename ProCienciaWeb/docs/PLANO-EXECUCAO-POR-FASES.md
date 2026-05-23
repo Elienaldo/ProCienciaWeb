@@ -39,12 +39,12 @@ Atualize esta tabela ao concluir cada fase.
 
 | Fase | Nome | Status | Data início | Data fim | Entregável |
 |------|------|--------|-------------|----------|------------|
-| 0 | Preparação (branch + MCPs) | [ ] | | | Branch + MCPs OK |
-| 1 | Inventário técnico | [ ] | | | `docs/inventario-tecnico.md` |
-| 2 | Arquitetura | [ ] | | | `docs/architecture.md` |
-| 3 | Visão do codebase | [ ] | | | `docs/codebase-overview.md` |
-| 4 | Setup local | [ ] | | | `docs/setup-local.md` |
-| 5 | PRD | [ ] | | | `docs/PRD.md` |
+| 0 | Preparação (branch + MCPs) | [x] | 2026-05-22 | 2026-05-22 | Branch + MCPs OK · [FASE-0-RESULTADO.md](./FASE-0-RESULTADO.md) |
+| 1 | Inventário técnico | [x] | 2026-05-22 | 2026-05-22 | `docs/inventario-tecnico.md` |
+| 2 | Arquitetura | [x] | 2026-05-22 | 2026-05-22 | `docs/architecture.md` |
+| 3 | Visão do codebase | [x] | 2026-05-22 | 2026-05-22 | `docs/codebase-overview.md` |
+| 4 | Setup local | [x] | 2026-05-23 | 2026-05-23 | `docs/setup-local.md` |
+| 5 | PRD | [x] | 2026-05-23 | 2026-05-23 | `docs/PRD.md` |
 | 6 | TDD | [ ] | | | `docs/TDD.md` |
 | 7 | AGENTS.md e regras | [ ] | | | `AGENTS.md` + `.cursor/rules/` |
 | 8 | Testes e roadmap | [ ] | | | `docs/roadmap-testes-migracao.md` |
@@ -97,10 +97,11 @@ flowchart LR
 ```
 docs/
 ├── PLANO-EXECUCAO-POR-FASES.md    ← este arquivo
-├── inventario-tecnico.md          ← Fase 1
-├── architecture.md                ← Fase 2
-├── codebase-overview.md           ← Fase 3
-├── setup-local.md                 ← Fase 4
+├── FASE-0-RESULTADO.md            ← Fase 0 (concluída)
+├── inventario-tecnico.md          ← Fase 1 (concluída)
+├── architecture.md                ← Fase 2 (concluída)
+├── codebase-overview.md           ← Fase 3 (concluída)
+├── setup-local.md                 ← Fase 4 (concluída)
 ├── PRD.md                         ← Fase 5
 ├── TDD.md                         ← Fase 6
 └── roadmap-testes-migracao.md     ← Fase 8
@@ -110,7 +111,7 @@ docs/
 
 ## Fase 0 — Preparação (branch + MCPs)
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P0  
 **Entregável:** Branch ativa + MCPs configurados (sem secrets no Git)  
 **Skills Cursor:** nenhuma obrigatória
@@ -144,11 +145,11 @@ Garantir ambiente Git e ferramentas MCP antes de gerar documentação.
 
 ### Critério de pronto (DoD)
 
-- [ ] Branch `feature/docs-mcp-planejamento` ativa
-- [ ] MCP global configurado (pelo menos GitHub ou Context7)
-- [ ] MCP projeto configurado (Azure) ou decisão documentada de adiar
-- [ ] Nenhum token/secret commitado no repositório
-- [ ] `dotnet build` conclui sem erros
+- [x] Branch `feature/docs-mcp-planejamento` ativa
+- [x] MCP global configurado (pelo menos GitHub ou Context7)
+- [x] MCP projeto configurado (Azure) ou decisão documentada de adiar
+- [x] Nenhum token/secret commitado no repositório
+- [x] `dotnet build` conclui sem erros
 
 ### Comandos úteis
 
@@ -165,17 +166,17 @@ dotnet build ProCienciaWeb.sln
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
-- **Próximo passo:**
+- **Data:** 2026-05-22
+- **O que foi feito:** Branch validada; MCP global (GitHub + Playwright) e MCP projeto (Azure) configurados; build .NET 3.1.301 OK (0 erros).
+- **Arquivos gerados:** `.cursor/mcp.json`, `docs/FASE-0-RESULTADO.md` — detalhes em [FASE-0-RESULTADO.md](./FASE-0-RESULTADO.md).
+- **Pendências / bloqueios:** Reiniciar Cursor para ativar MCPs; definir `GITHUB_PAT` para GitHub MCP; possível erro SSL no `npx @azure/mcp` (certificado npm).
+- **Próximo passo:** Fase 1 — inventário técnico (`docs/inventario-tecnico.md`).
 
 ---
 
 ## Fase 1 — Inventário técnico
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P0  
 **Entregável:** `docs/inventario-tecnico.md`  
 **Skills Cursor:** `brainstorming`, subagent `explore`
@@ -200,11 +201,11 @@ Mapear estrutura física do repositório, dependências, entrypoints e rotas —
 
 ### Critério de pronto (DoD)
 
-- [ ] `docs/inventario-tecnico.md` existe e está versionado na branch
-- [ ] Todas as pastas relevantes estão listadas
-- [ ] Pacotes NuGet documentados com versão
-- [ ] Rotas Blazor e endpoints da API externa listados
-- [ ] Itens excluídos do `.csproj` explicados
+- [x] `docs/inventario-tecnico.md` existe e está versionado na branch
+- [x] Todas as pastas relevantes estão listadas
+- [x] Pacotes NuGet documentados com versão
+- [x] Rotas Blazor e endpoints da API externa listados
+- [x] Itens excluídos do `.csproj` explicados
 
 ### Comandos úteis
 
@@ -229,17 +230,17 @@ dotnet list ProCienciaWeb\ProCienciaWeb.csproj package
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
-- **Próximo passo:**
+- **Data:** 2026-05-22
+- **O que foi feito:** Inventário completo do repositório: 45 arquivos mapeados, 6 rotas Blazor, 6 métodos ApiService, exclusões do csproj documentadas, legado identificado.
+- **Arquivos gerados:** `docs/inventario-tecnico.md`
+- **Pendências / bloqueios:** Nenhuma para esta fase.
+- **Próximo passo:** Fase 2 — `docs/architecture.md`
 
 ---
 
 ## Fase 2 — Arquitetura
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P0  
 **Entregável:** `docs/architecture.md`  
 **Skills Cursor:** `brainstorming`, `canvas` (diagramas)
@@ -263,10 +264,10 @@ Documentar arquitetura com diagramas C4, fluxos de dados e integração com a AP
 
 ### Critério de pronto (DoD)
 
-- [ ] `docs/architecture.md` com diagramas (mermaid ou imagens)
-- [ ] Fluxo UI → ApiService → API documentado
-- [ ] Endpoints REST da API listados com verbos HTTP
-- [ ] Limitações e riscos arquiteturais citados (3.1 EOL, HttpClient estático)
+- [x] `docs/architecture.md` com diagramas (mermaid ou imagens)
+- [x] Fluxo UI → ApiService → API documentado
+- [x] Endpoints REST da API listados com verbos HTTP
+- [x] Limitações e riscos arquiteturais citados (3.1 EOL, HttpClient estático)
 
 ### Comandos úteis
 
@@ -289,17 +290,17 @@ Documentar arquitetura com diagramas C4, fluxos de dados e integração com a AP
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
-- **Próximo passo:**
+- **Data:** 2026-05-22
+- **O que foi feito:** Documento de arquitetura com C4 contexto/containers, pipeline ASP.NET, 3 sequências (listar/incluir/editar), contratos REST, decisões implícitas, 10 riscos e visão de deploy/ecossistema.
+- **Arquivos gerados:** `docs/architecture.md`
+- **Pendências / bloqueios:** Nenhuma para esta fase.
+- **Próximo passo:** Fase 3 — `docs/codebase-overview.md`
 
 ---
 
 ## Fase 3 — Visão do codebase
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P1  
 **Entregável:** `docs/codebase-overview.md`  
 **Skills Cursor:** `explore`, `systematic-debugging` (para débitos)
@@ -323,10 +324,10 @@ Explicar responsabilidade de cada módulo, padrões usados e débito técnico pr
 
 ### Critério de pronto (DoD)
 
-- [ ] Cada pasta principal tem responsabilidade documentada
-- [ ] Lista de débitos com prioridade
-- [ ] Funcionalidades incompletas explicitadas
-- [ ] Recomendações de limpeza (template, Controller) sem implementar ainda
+- [x] Cada pasta principal tem responsabilidade documentada
+- [x] Lista de débitos com prioridade
+- [x] Funcionalidades incompletas explicitadas
+- [x] Recomendações de limpeza (template, Controller) sem implementar ainda
 
 ### Prompt sugerido (Cursor Agent)
 
@@ -341,17 +342,17 @@ Explicar responsabilidade de cada módulo, padrões usados e débito técnico pr
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
-- **Próximo passo:**
+- **Data:** 2026-05-22
+- **O que foi feito:** Visão do codebase com mapa de módulos, padrões Blazor/API, 14 funcionalidades classificadas, 15 débitos (P0–P2), código morto/duplicação e recomendações de limpeza.
+- **Arquivos gerados:** `docs/codebase-overview.md`
+- **Pendências / bloqueios:** Nenhuma para esta fase.
+- **Próximo passo:** Fase 4 — `docs/setup-local.md`
 
 ---
 
 ## Fase 4 — Setup local
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P1  
 **Entregável:** `docs/setup-local.md`  
 **Skills Cursor:** `verification-before-completion`
@@ -376,10 +377,10 @@ Permitir que qualquer desenvolvedor clone, compile e execute o projeto localment
 
 ### Critério de pronto (DoD)
 
-- [ ] Documento testado por você — build e run funcionam
-- [ ] Versão mínima do SDK indicada
-- [ ] URLs locais corretas
-- [ ] Pelo menos 3 itens de troubleshooting
+- [x] Documento testado por você — build e run funcionam
+- [x] Versão mínima do SDK indicada
+- [x] URLs locais corretas
+- [x] Pelo menos 3 itens de troubleshooting
 
 ### Comandos úteis
 
@@ -405,17 +406,17 @@ dotnet run --project ProCienciaWeb\ProCienciaWeb.csproj
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
-- **Próximo passo:**
+- **Data:** 2026-05-23
+- **O que foi feito:** Guia setup-local com pré-requisitos SDK 3.1.301, clone/restore/build/run validados; URLs 5000/5001 e IIS Express; 7 itens de troubleshooting; tabela de validação com testes HTTP.
+- **Arquivos gerados:** `docs/setup-local.md`
+- **Pendências / bloqueios:** `/listaprojetos` retorna 500 se API Azure indisponível (documentado).
+- **Próximo passo:** Fase 5 — `docs/PRD.md`
 
 ---
 
 ## Fase 5 — PRD (Product Requirements Document)
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P1  
 **Entregável:** `docs/PRD.md`  
 **Skills Cursor:** `brainstorming`, `writing-plans`
@@ -441,11 +442,11 @@ Documentar visão de produto, usuários, requisitos funcionais/não funcionais e
 
 ### Critério de pronto (DoD)
 
-- [ ] Visão e objetivos definidos
-- [ ] Pelo menos 2 personas
-- [ ] RF e RNF numerados
-- [ ] Backlog com prioridade
-- [ ] Alinhamento explícito com rotas/páginas existentes
+- [x] Visão e objetivos definidos
+- [x] Pelo menos 2 personas
+- [x] RF e RNF numerados
+- [x] Backlog com prioridade
+- [x] Alinhamento explícito com rotas/páginas existentes
 
 ### Prompt sugerido (Cursor Agent)
 
@@ -462,11 +463,11 @@ Documentar visão de produto, usuários, requisitos funcionais/não funcionais e
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
-- **Próximo passo:**
+- **Data:** 2026-05-23
+- **O que foi feito:** PRD com visão, objetivos, escopo, 3 personas, casos de uso/jornadas, matriz funcionalidades atuais vs planejadas (F01–F17), 17 RFs e 15 RNFs numerados, modelo de informação, métricas de aceite, riscos e backlog MoSCoW (BL-001 … BL-030, releases R1–R5).
+- **Arquivos gerados:** `docs/PRD.md`
+- **Pendências / bloqueios:** Backlog Must/Should/Could pendente na Fase 8; CRUD incompleto no código permanece débito de implementação.
+- **Próximo passo:** Fase 6 — `docs/TDD.md`
 
 ---
 

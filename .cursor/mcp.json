@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "Azure MCP Server": {
+      "command": "c:\\Users\\Elienaldo\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers\\node.exe",
+      "args": [
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npx-cli.js",
+        "-y",
+        "@azure/mcp@latest",
+        "server",
+        "start"
+      ]
+    }
+  }
+}
