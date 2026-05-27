@@ -52,7 +52,7 @@ flowchart TD
 
 | Fase | Nome | Status | Data início | Data fim | Entregável |
 |------|------|--------|-------------|----------|------------|
-| MG-0 | Pausa .NET + setup agente | [ ] | | | `AGENTS.md` + banner plano antigo |
+| MG-0 | Pausa .NET + setup agente | [x] | 2026-05-27 | 2026-05-27 | `AGENTS.md` + banner plano antigo |
 | MG-1 | Descoberta API legada | [ ] | | | `docs/go/inventario-api-legado.md` |
 | MG-2 | Arquitetura Go | [ ] | | | `docs/go/architecture.md` |
 | MG-3 | Scaffold Go | [ ] | | | `go.mod`, `cmd/prociencia/`, healthcheck |
@@ -148,10 +148,10 @@ flowchart TB
 
 ## MG-0 — Pausa .NET + setup agente
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P0  
-**Entregável:** [`AGENTS.md`](../../AGENTS.md) (raiz do repo) + banner no plano .NET  
-**Skills:** nenhuma obrigatória (configuração)
+**Entregável:** [`AGENTS.md`](../../AGENTS.md) (raiz do repo) + banner no plano .NET + [`docs/go/MG-0-RESULTADO.md`](./go/MG-0-RESULTADO.md)  
+**Skills:** opcional — ver passo 5 e [Anexo A](#anexo-a--mcps-e-skills) (instalação local; Node ≥ 22)
 
 ### Objetivo
 
@@ -173,22 +173,31 @@ Formalizar a pausa do plano .NET, criar guia curto para o agente Cursor (stack G
    ```
 3. Criar `AGENTS.md` na raiz do repositório (conteúdo: stack, pastas, comandos, MCPs, skills — ver [Anexo B](#anexo-b--conteúdo-referência-agentsmd)).
 4. Revisar MCPs globais e de projeto ([Anexo A](#anexo-a--mcps-e-skills)).
-5. Instalar skills recomendadas do Tech Leads Club (opcional, local):
+5. Instalar skills recomendadas do Tech Leads Club (opcional, local) — ver [Anexo A](#anexo-a--mcps-e-skills):
    ```powershell
+   # Desenvolvimento e qualidade
    npx @tech-leads-club/agent-skills install --skill coding-guidelines
    npx @tech-leads-club/agent-skills install --skill codenavi
    npx @tech-leads-club/agent-skills install --skill best-practices
    npx @tech-leads-club/agent-skills install --skill chrome-devtools
+   npx @tech-leads-club/agent-skills install --skill docs-writer
+   # Arquitetura e migração (prioridade para MG-1 … MG-2)
+   npx @tech-leads-club/agent-skills install --skill legacy-migration-planner
+   npx @tech-leads-club/agent-skills install --skill modular-decomposition
+   npx @tech-leads-club/agent-skills install --skill modular-design-principles
+   npx @tech-leads-club/agent-skills install --skill domain-analysis
+   npx @tech-leads-club/agent-skills install --skill decomposition-planning-roadmap
+   npx @tech-leads-club/agent-skills install --skill the-fool
    ```
 6. Documentar em `docs/go/MG-0-RESULTADO.md` o que foi configurado (sem secrets).
 
 ### Critério de pronto (DoD)
 
-- [ ] Banner de pausa no plano .NET
-- [ ] Branch `feature/migracao-go` criada
-- [ ] `AGENTS.md` na raiz, versionado
-- [ ] MCPs documentados (GitHub, Playwright, Azure; SQL adiado até MG-1)
-- [ ] Nenhum código Go de aplicação commitado nesta fase
+- [x] Banner de pausa no plano .NET
+- [x] Branch `feature/migracao-go` criada
+- [x] `AGENTS.md` na raiz, versionado
+- [x] MCPs documentados (GitHub, Playwright, Azure; SQL adiado até MG-1)
+- [x] Nenhum código Go de aplicação commitado nesta fase
 
 ### Prompt sugerido (Cursor Agent)
 
@@ -196,10 +205,10 @@ Formalizar a pausa do plano .NET, criar guia curto para o agente Cursor (stack G
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
+- **Data:** 2026-05-27 (reexecução MG-0 concluída)
+- **O que foi feito:** Banner PAUSADO no plano .NET; `AGENTS.md` na raiz (stack, MCPs, skills v1.1); branch `feature/migracao-go`; MCPs revisados; `docs/go/MG-0-RESULTADO.md` atualizado. Sem `go.mod` nem movimentação do .NET.
+- **Arquivos gerados:** `AGENTS.md`, `ProCienciaWeb/docs/go/MG-0-RESULTADO.md`; alterados `PLANO-EXECUCAO-POR-FASES.md`, `PLANO-MIGRACAO-GO.md`
+- **Pendências / bloqueios:** Instalação Tech Leads Club via `npx` — executar localmente com Node ≥ 22 (ver MG-0-RESULTADO.md). MSSQL MCP na MG-1.
 - **Próximo passo:** MG-1
 
 ---
@@ -209,7 +218,7 @@ Formalizar a pausa do plano .NET, criar guia curto para o agente Cursor (stack G
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P0  
 **Entregável:** `docs/go/inventario-api-legado.md`  
-**Skills:** `codenavi`, `coding-guidelines` · **MCP:** GitHub, SQL Server (se DB local)
+**Skills:** `codenavi`, `legacy-migration-planner`, `domain-analysis`, `modular-decomposition` (Patterns 1–4 no legado .NET) · **MCP:** GitHub, SQL Server (se DB local)
 
 ### Objetivo
 
@@ -274,7 +283,7 @@ Get-ChildItem -Recurse -Include *Controller*.cs | Select-Object FullName
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P0  
 **Entregável:** `docs/go/architecture.md`  
-**Skills:** `brainstorming`, `writing-plans`
+**Skills:** `brainstorming`, `writing-plans`, `modular-design-principles`, `modular-decomposition` (Patterns 5 + DDD), `domain-analysis`, `decomposition-planning-roadmap`, `legacy-migration-planner`, `the-fool` (stress-test ADRs), `docs-writer`
 
 ### Objetivo
 
@@ -322,7 +331,7 @@ Congelar decisões de arquitetura modular, contratos entre camadas, configuraç�
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P0  
 **Entregável:** módulo Go compilável com healthcheck  
-**Skills:** `coding-guidelines`, `verification-before-completion`
+**Skills:** `coding-guidelines`, `modular-design-principles`, `verification-before-completion`
 
 ### Objetivo
 
@@ -375,7 +384,7 @@ Criar esqueleto do projeto Go sem lógica de negócio completa — apenas wiring
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P0  
 **Entregável:** API funcional com paridade ao contrato documentado  
-**Skills:** `coding-guidelines`, `test-driven-development`, `systematic-debugging` · **MCP:** SQL Server, GitHub
+**Skills:** `coding-guidelines`, `tactical-ddd`, `modular-design-principles`, `test-driven-development`, `systematic-debugging` · **MCP:** SQL Server, GitHub
 
 ### Objetivo
 
@@ -429,7 +438,7 @@ Implementar camada de persistência e handlers REST `/api/*` equivalentes ao `Se
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P0  
 **Entregável:** UI HTML equivalente às páginas Blazor  
-**Skills:** `coding-guidelines`, `best-practices`, `chrome-devtools`
+**Skills:** `coding-guidelines`, `best-practices`, `frontend-blueprint`, `chrome-devtools`
 
 ### Objetivo
 
@@ -532,7 +541,7 @@ Garantir regressão automatizada para API e fluxos web críticos.
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P1  
 **Entregável:** `docs/go/deploy.md` + código .NET em `legacy/dotnet/`  
-**Skills:** nenhuma obrigatória · **MCP:** Azure
+**Skills:** `legacy-migration-planner`, `decomposition-planning-roadmap` · **MCP:** Azure
 
 ### Objetivo
 
@@ -581,7 +590,7 @@ Publicar aplicação Go, validar integração com apps móveis e arquivar stack 
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P2  
 **Entregável:** PRD/README atualizados para stack Go  
-**Skills:** `writing-plans`
+**Skills:** `docs-writer`, `writing-plans`
 
 ### Objetivo
 
@@ -643,16 +652,59 @@ Exemplo SQL MCP (sem secret no Git) — adicionar em `.cursor/mcp.json` quando M
 }
 ```
 
-### Skills — Tech Leads Club
+### Skills — mapa por fase
 
-Fonte: [agent-skills.techleads.club/skills](https://agent-skills.techleads.club/skills/)
+| Fase | Skills principais (Tech Leads + Cursor) |
+|------|----------------------------------------|
+| MG-0 | `docs-writer` (opcional) |
+| MG-1 | `codenavi`, `legacy-migration-planner`, `domain-analysis`, `modular-decomposition` |
+| MG-2 | `modular-design-principles`, `decomposition-planning-roadmap`, `the-fool`, `docs-writer` + Cursor `brainstorming`, `writing-plans` |
+| MG-3 | `coding-guidelines`, `modular-design-principles` |
+| MG-4 | `tactical-ddd`, `coding-guidelines` |
+| MG-5 | `frontend-blueprint`, `best-practices`, `chrome-devtools` |
+| MG-6 | `best-practices`, `chrome-devtools` |
+| MG-7 | `legacy-migration-planner`, `decomposition-planning-roadmap` |
+| MG-8 | `docs-writer` |
 
-| Skill | Instalação | Uso |
-|-------|------------|-----|
-| coding-guidelines | `npx @tech-leads-club/agent-skills install --skill coding-guidelines` | MG-3 … MG-5 |
-| codenavi | `... install --skill codenavi` | MG-1 |
-| best-practices | `... install --skill best-practices` | MG-5, MG-6 |
-| chrome-devtools | `... install --skill chrome-devtools` | MG-5, MG-6 |
+Fonte do catálogo: [agent-skills.techleads.club/skills](https://agent-skills.techleads.club/skills/)
+
+### Skills — Arquitetura (categoria Architecture)
+
+Recomendadas para **adequação e decisões de arquitetura** na migração .NET → Go (monólito modular). Instalação: `npx @tech-leads-club/agent-skills install --skill <nome>`.
+
+| Skill | Fases | Uso na migração ProCiencia |
+|-------|-------|----------------------------|
+| [legacy-migration-planner](https://agent-skills.techleads.club/skills/legacy-migration-planner/) | MG-1, MG-2, MG-7 | Plano Strangler Fig, riscos, seams/facades, roadmap por domínio (rewrite C# → Go) |
+| [modular-decomposition](https://agent-skills.techleads.club/skills/modular-decomposition/) | MG-1, MG-2 | Pipeline Patterns 1–5: inventário, duplicação de domínio, acoplamento, agrupamento |
+| [modular-design-principles](https://agent-skills.techleads.club/skills/modular-design-principles/) | MG-2 … MG-4 | Princípios de boundaries, contratos, state isolation — base para `internal/*` e ADRs |
+| [domain-analysis](https://agent-skills.techleads.club/skills/domain-analysis/) | MG-1, MG-2 | DDD estratégico: subdomínios, bounded contexts (Projeto, Área, Instituição) |
+| [decomposition-planning-roadmap](https://agent-skills.techleads.club/skills/decomposition-planning-roadmap/) | MG-2, MG-7 | Ordem de extração/fases, priorização, alinhamento com fases MG-* |
+| [component-identification-sizing](https://agent-skills.techleads.club/skills/component-identification-sizing/) | MG-1 | Pattern 1 — inventariar e dimensionar módulos .NET / pacotes Go alvo |
+| [component-common-domain-detection](https://agent-skills.techleads.club/skills/component-common-domain-detection/) | MG-1 | Pattern 2 — lógica de domínio duplicada entre Blazor, API local e `ServicoProCiencia` |
+| [component-flattening-analysis](https://agent-skills.techleads.club/skills/component-flattening-analysis/) | MG-1 | Pattern 3 — hierarquia e “órfãos” no legado antes de desenhar `internal/` |
+| [coupling-analysis](https://agent-skills.techleads.club/skills/coupling-analysis/) | MG-1, MG-2 | Pattern 4 — acoplamento HTTP/DB entre web, API e backend |
+| [domain-identification-grouping](https://agent-skills.techleads.club/skills/domain-identification-grouping/) | MG-2 | Pattern 5 — agrupar componentes em domínios alinhados ao monólito Go |
+| [tactical-ddd](https://agent-skills.techleads.club/skills/tactical-ddd/) | MG-4 | Entidades, agregados, repositórios em `internal/domain` e `repository` |
+| [frontend-blueprint](https://agent-skills.techleads.club/skills/frontend-blueprint/) | MG-5 | Estrutura SSR (`html/template`), fluxos de página, não SPA |
+| [react-composition-patterns](https://agent-skills.techleads.club/skills/react-composition-patterns/) | — | **N/A** — stack Go SSR; não instalar para este projeto |
+
+**Ordem sugerida (MG-1 → MG-2):** `legacy-migration-planner` (research) → `modular-decomposition` (1–5) → `domain-analysis` → `modular-design-principles` + ADRs → `decomposition-planning-roadmap` → `the-fool` (validar decisões).
+
+### Skills — Decisão
+
+| Skill | Fases | Uso |
+|-------|-------|-----|
+| [the-fool](https://agent-skills.techleads.club/skills/the-fool/) | MG-2 (obrigatório antes de congelar ADRs) | Devil's advocate, pre-mortem, red team — desafiar monólito vs serviços, contrato REST, cutover |
+
+### Skills — Desenvolvimento, qualidade e documentação
+
+| Skill | Instalação | Fases | Uso |
+|-------|------------|-------|-----|
+| [coding-guidelines](https://agent-skills.techleads.club/skills/coding-guidelines/) | `npx @tech-leads-club/agent-skills install --skill coding-guidelines` | MG-3 … MG-5 | Reduzir erros comuns do LLM em Go |
+| [codenavi](https://agent-skills.techleads.club/skills/codenavi/) | `... install --skill codenavi` | MG-1 | Navegar legado e `ServicoProCiencia` |
+| [best-practices](https://agent-skills.techleads.club/skills/best-practices/) | `... install --skill best-practices` | MG-5, MG-6 | Segurança e qualidade web |
+| [chrome-devtools](https://agent-skills.techleads.club/skills/chrome-devtools/) | `... install --skill chrome-devtools` | MG-5, MG-6 | Debug de páginas SSR |
+| [docs-writer](https://agent-skills.techleads.club/skills/docs-writer/) | `... install --skill docs-writer` | MG-0, MG-2, MG-8 | `architecture.md`, inventários, PRD/README, revisão de markdown |
 
 ### Skills — Cursor (built-in / superpowers)
 
@@ -693,8 +745,10 @@ Criar na **MG-0** em `AGENTS.md` (raiz). Esboço:
 ## MCPs
 - GitHub, Playwright, Azure; MSSQL após MG-1
 
-## Skills
-- coding-guidelines, codenavi, best-practices (Tech Leads)
+## Skills (Tech Leads Club)
+- Arquitetura: legacy-migration-planner, modular-decomposition, modular-design-principles, domain-analysis, decomposition-planning-roadmap, the-fool
+- Dev/docs: coding-guidelines, codenavi, best-practices, docs-writer, chrome-devtools
+- Catálogo: https://agent-skills.techleads.club/skills/
 ```
 
 ---
@@ -716,5 +770,6 @@ Criar na **MG-0** em `AGENTS.md` (raiz). Esboço:
 | Versão | Data | Alteração |
 |--------|------|-----------|
 | 1.0 | 2026-05-23 | Plano inicial MG-0 … MG-8 (documento apenas; execução manual fase a fase) |
+| 1.1 | 2026-05-27 | Skills de arquitetura Tech Leads Club + docs-writer + the-fool (Anexo A e fases MG-*) |
 
 **Para iniciar:** execute **MG-0** quando estiver pronto e autorize o agente explicitamente (ex.: *"Execute a fase MG-0 do PLANO-MIGRACAO-GO.md"*).

@@ -1,8 +1,13 @@
 # Plano de execução por fases — ProCienciaWeb
 
+> **PAUSADO — migração para Go em andamento.**  
+> Fases 0–5 concluídas. **Não executar Fases 6–8** deste plano.  
+> Plano ativo: [PLANO-MIGRACAO-GO.md](./PLANO-MIGRACAO-GO.md) (fases MG-0 … MG-8).
+
 Guia único para documentar o projeto **fase a fase**. Abra este arquivo a cada sessão de trabalho, execute uma fase por vez, preencha **Resultado obtido** e só avance quando o **Critério de pronto (DoD)** estiver completo.
 
-**Branch sugerida:** `feature/docs-mcp-planejamento`  
+**Branch sugerida (plano .NET):** `feature/docs-mcp-planejamento` — **pausado**  
+**Branch ativa (migração Go):** `feature/migracao-go` — ver [PLANO-MIGRACAO-GO.md](./PLANO-MIGRACAO-GO.md)  
 **Repositório:** `d:\Projetos\ProCiencia\ProCienciaWeb`
 
 ---
