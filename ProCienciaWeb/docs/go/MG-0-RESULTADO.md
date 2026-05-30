@@ -15,7 +15,7 @@
 3. Branch **`feature/migracao-go`** criada a partir de `feature/docs-mcp-planejamento` (alterações MG-0 nesta branch).
 4. MCPs revisados (sem secrets) — ver tabela abaixo.
 5. Painel e seção MG-0 em [PLANO-MIGRACAO-GO.md](../PLANO-MIGRACAO-GO.md) marcados como concluídos (DoD `[x]`).
-6. **11 skills Tech Leads Club** instaladas em `.cursor/skills/` (escopo projeto — Cursor detecta automaticamente; **não** vão para o PATH).
+6. **13 skills Tech Leads Club** instaladas em `.cursor/skills/` (11 iniciais + 2 TDD/ADR).
 7. **MCP Azure** unificado em `.cursor/mcp.json` na raiz do repo (antes em `ProCienciaWeb/.cursor/`).
 8. **Não** criado `go.mod`, `cmd/`, `internal/` — reservado para MG-3.
 9. **Não** movido projeto .NET para `legacy/dotnet/` — reservado para MG-7.
@@ -27,10 +27,10 @@
 | Arquivo / pasta | Ação |
 |-----------------|------|
 | `ProCienciaWeb/docs/PLANO-EXECUCAO-POR-FASES.md` | Banner PAUSADO + referência branch Go |
-| `ProCienciaWeb/docs/PLANO-MIGRACAO-GO.md` | Painel MG-0 `[x]`, DoD, resultado obtido, skills v1.1 |
+| `ProCienciaWeb/docs/PLANO-MIGRACAO-GO.md` | Painel MG-0 `[x]`, DoD, skills v1.1 → v1.2 (TDD/ADR) |
 | `AGENTS.md` | Criado/atualizado (raiz) |
 | `.cursor/mcp.json` | MCP Azure (movido de `ProCienciaWeb/.cursor/`) |
-| `.cursor/skills/*` | 11 skills TLC (cópia local para Cursor) |
+| `.cursor/skills/*` | 13 skills TLC (11 iniciais + TDD/ADR) |
 | `ProCienciaWeb/docs/go/MG-0-RESULTADO.md` | Este arquivo |
 
 ---
@@ -42,7 +42,7 @@
 | **GitHub** | Habilitado (global Cursor) | PRs, explorar `ServicoProCiencia` |
 | **Playwright** | Habilitado (global Cursor) | E2E na MG-6 |
 | **Azure** | Projeto — `.cursor/mcp.json` (raiz do repo) | `@azure/mcp` — deploy MG-7 |
-| **MSSQL** | Pendente **MG-1** | Adicionar em `.cursor/mcp.json` com `MSSQL_CONNECTION_STRING` via env (sem commitar secret) |
+| **MSSQL** | Configurado em `.cursor/mcp.json` (MG-1) | Requer `MSSQL_CONNECTION_STRING` no ambiente; schema validado em MG-4 |
 
 Configuração unificada em `.cursor/` na raiz: `mcp.json` + `skills/` (sem connection strings no repositório).
 
@@ -62,7 +62,7 @@ Configuração unificada em `.cursor/` na raiz: `mcp.json` + `skills/` (sem conn
 
 ## Skills Tech Leads Club
 
-**Status:** instaladas (2026-05-27)  
+**Status:** instaladas (2026-05-27; +2 skills TDD/ADR)  
 **Destino:** `.cursor/` na raiz do repositório (`mcp.json` + `skills/`)
 
 | Skill | Pasta |
@@ -78,6 +78,10 @@ Configuração unificada em `.cursor/` na raiz: `mcp.json` + `skills/` (sem conn
 | domain-analysis | `.cursor/skills/domain-analysis/` |
 | decomposition-planning-roadmap | `.cursor/skills/decomposition-planning-roadmap/` |
 | the-fool | `.cursor/skills/the-fool/` |
+| technical-design-doc-creator | `.cursor/skills/technical-design-doc-creator/` |
+| create-adr | `.cursor/skills/create-adr/` |
+
+**Uso TDD/ADR (MG-2):** `technical-design-doc-creator` → `docs/go/architecture.md`; `create-adr` → `docs/go/adr/*.md`; `docs-writer` só revisão.
 
 **Método:** `npx @tech-leads-club/agent-skills install` falhou aqui com `Failed to fetch registry` (CDN indisponível no ambiente do agente). Skills copiadas a partir do repositório oficial [tech-leads-club/agent-skills](https://github.com/tech-leads-club/agent-skills) (`main`), equivalente ao que o CLI instalaria para Cursor.
 
@@ -119,6 +123,5 @@ Catálogo e mapeamento por fase: [PLANO-MIGRACAO-GO.md](../PLANO-MIGRACAO-GO.md)
 
 ## Próximo passo
 
-**MG-1** — Descoberta API legada (`ServicoProCiencia`)  
-**Entregável:** `docs/go/inventario-api-legado.md`  
-**Skills:** `codenavi`, `legacy-migration-planner`, `domain-analysis`, `modular-decomposition`
+**MG-2** — Arquitetura Go (`docs/go/architecture.md` + `docs/go/adr/`)  
+Ver [MG-1-RESULTADO.md](./MG-1-RESULTADO.md) e [inventario-api-legado.md](./inventario-api-legado.md).

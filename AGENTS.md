@@ -3,7 +3,7 @@
 Guia curto para o agente Cursor na migração .NET → Go.
 
 **Branch de trabalho:** `feature/migracao-go`  
-**Fase atual:** MG-0 concluída → próxima **MG-1** ([PLANO-MIGRACAO-GO.md](ProCienciaWeb/docs/PLANO-MIGRACAO-GO.md))
+**Fase atual:** MG-2 concluída → próxima **MG-3** ([PLANO-MIGRACAO-GO.md](ProCienciaWeb/docs/PLANO-MIGRACAO-GO.md))
 
 ## Stack
 
@@ -13,6 +13,7 @@ Guia curto para o agente Cursor na migração .NET → Go.
 ## Antes de codar
 
 - [ProCienciaWeb/docs/PLANO-MIGRACAO-GO.md](ProCienciaWeb/docs/PLANO-MIGRACAO-GO.md) — fase atual (MG-0 … MG-8)
+- [ProCienciaWeb/docs/go/inventario-api-legado.md](ProCienciaWeb/docs/go/inventario-api-legado.md) — contrato API legada (MG-1)
 - [ProCienciaWeb/docs/go/architecture.md](ProCienciaWeb/docs/go/architecture.md) — após MG-2
 - [ProCienciaWeb/docs/PRD.md](ProCienciaWeb/docs/PRD.md) — requisitos e backlog
 
@@ -40,13 +41,15 @@ E2E: ver `e2e/README.md` (MG-6).
 | GitHub | Global (Cursor) | MG-0+ |
 | Playwright | Global (Cursor) | MG-6 |
 | Azure | `.cursor/mcp.json` (raiz do repo) | MG-7 |
-| SQL Server (MSSQL) | Adicionar em MG-1 | MG-1, MG-4 |
+| SQL Server (MSSQL) | `.cursor/mcp.json` — requer `MSSQL_CONNECTION_STRING` no ambiente | MG-1, MG-4 |
 
 ## Skills recomendadas
 
 Catálogo: [agent-skills.techleads.club/skills](https://agent-skills.techleads.club/skills/)
 
 **Arquitetura e migração:** `legacy-migration-planner`, `modular-decomposition`, `modular-design-principles`, `domain-analysis`, `decomposition-planning-roadmap`, `the-fool`
+
+**Design técnico (TDD/ADR):** `technical-design-doc-creator`, `create-adr`
 
 **Desenvolvimento e docs:** `coding-guidelines`, `codenavi`, `best-practices`, `docs-writer`, `chrome-devtools`
 

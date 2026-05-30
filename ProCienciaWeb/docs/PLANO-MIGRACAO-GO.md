@@ -53,8 +53,8 @@ flowchart TD
 | Fase | Nome | Status | Data início | Data fim | Entregável |
 |------|------|--------|-------------|----------|------------|
 | MG-0 | Pausa .NET + setup agente | [x] | 2026-05-27 | 2026-05-27 | `AGENTS.md` + banner plano antigo |
-| MG-1 | Descoberta API legada | [ ] | | | `docs/go/inventario-api-legado.md` |
-| MG-2 | Arquitetura Go | [ ] | | | `docs/go/architecture.md` |
+| MG-1 | Descoberta API legada | [x] | 2026-05-30 | 2026-05-30 | `docs/go/inventario-api-legado.md` |
+| MG-2 | Arquitetura Go | [x] | 2026-05-30 | 2026-05-30 | `docs/go/architecture.md` + `docs/go/adr/` |
 | MG-3 | Scaffold Go | [ ] | | | `go.mod`, `cmd/prociencia/`, healthcheck |
 | MG-4 | API REST Go | [ ] | | | `internal/apihandlers` + `repository` |
 | MG-5 | Web SSR Go | [ ] | | | `web/templates`, `internal/webhandlers` |
@@ -138,6 +138,7 @@ flowchart TB
 │   ├── go/
 │   │   ├── inventario-api-legado.md
 │   │   ├── architecture.md
+│   │   ├── adr/
 │   │   └── deploy.md
 │   └── ... (docs legado .NET)
 ├── e2e/                         ← MG-6
@@ -188,6 +189,9 @@ Formalizar a pausa do plano .NET, criar guia curto para o agente Cursor (stack G
    npx @tech-leads-club/agent-skills install --skill domain-analysis
    npx @tech-leads-club/agent-skills install --skill decomposition-planning-roadmap
    npx @tech-leads-club/agent-skills install --skill the-fool
+   # Design técnico (TDD e ADR — MG-2)
+   npx @tech-leads-club/agent-skills install --skill technical-design-doc-creator
+   npx @tech-leads-club/agent-skills install --skill create-adr
    ```
 6. Documentar em `docs/go/MG-0-RESULTADO.md` o que foi configurado (sem secrets).
 
@@ -215,7 +219,7 @@ Formalizar a pausa do plano .NET, criar guia curto para o agente Cursor (stack G
 
 ## MG-1 — Descoberta API legada (ServicoProCiencia)
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P0  
 **Entregável:** `docs/go/inventario-api-legado.md`  
 **Skills:** `codenavi`, `legacy-migration-planner`, `domain-analysis`, `modular-decomposition` (Patterns 1–4 no legado .NET) · **MCP:** GitHub, SQL Server (se DB local)
@@ -243,11 +247,11 @@ Mapear o backend C# atual (`ServicoProCiencia`) — endpoints, models, autentica
 
 ### Critério de pronto (DoD)
 
-- [ ] Todos os endpoints `/api/Projetos`, `/api/Areas`, `/api/SubAreas`, `/api/Instituicoes` documentados (verbo, path, body, response)
-- [ ] Schema de banco descrito ou diagrama ER
-- [ ] Dependências NuGet / versão .NET da API legada registradas
-- [ ] Riscos de paridade (campos só na API, behaviors especiais) listados
-- [ ] MCP SQL configurado **ou** decisão de usar apenas scripts manuais documentada
+- [x] Todos os endpoints `/api/Projetos`, `/api/Areas`, `/api/SubAreas`, `/api/Instituicoes` documentados (verbo, path, body, response)
+- [x] Schema de banco descrito ou diagrama ER
+- [x] Dependências NuGet / versão .NET da API legada registradas
+- [x] Riscos de paridade (campos só na API, behaviors especiais) listados
+- [x] MCP SQL configurado **ou** decisão de usar apenas scripts manuais documentada
 
 ### Comandos úteis
 
@@ -270,20 +274,20 @@ Get-ChildItem -Recurse -Include *Controller*.cs | Select-Object FullName
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
+- **Data:** 2026-05-30
+- **O que foi feito:** Análise do repositório `Elienaldo/ServicoProCiencia` via GitHub MCP; validação do OpenAPI em Azure; comparação com `architecture.md` e `ApiService`; schema inferido + diagrama ER; riscos P1–P9; MCP MSSQL documentado em `.cursor/mcp.json` (ativação depende de env var).
+- **Arquivos gerados:** `docs/go/inventario-api-legado.md`; alterados `PLANO-MIGRACAO-GO.md`, `AGENTS.md`, `.cursor/mcp.json`
+- **Pendências / bloqueios:** API Azure retorna **500** em `/api/*` (provável SQL no App Service); schema de tabelas não confirmado em DB live — export DDL na MG-4 com `MSSQL_CONNECTION_STRING` local.
 - **Próximo passo:** MG-2
 
 ---
 
 ## MG-2 — Arquitetura Go
 
-**Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
+**Status:** [ ] Não iniciada · [ ] Em andamento · [x] Concluída  
 **Prioridade:** P0  
-**Entregável:** `docs/go/architecture.md`  
-**Skills:** `brainstorming`, `writing-plans`, `modular-design-principles`, `modular-decomposition` (Patterns 5 + DDD), `domain-analysis`, `decomposition-planning-roadmap`, `legacy-migration-planner`, `the-fool` (stress-test ADRs), `docs-writer`
+**Entregável:** `docs/go/architecture.md` (TDD) + `docs/go/adr/` (mín. 3 ADRs)  
+**Skills:** `brainstorming`, `writing-plans`, `modular-design-principles`, `modular-decomposition` (Patterns 5 + DDD), `domain-analysis`, `decomposition-planning-roadmap`, `legacy-migration-planner`, `technical-design-doc-creator` (TDD principal), `create-adr`, `the-fool` (stress-test antes de congelar), `docs-writer` (revisão markdown final)
 
 ### Objetivo
 
@@ -299,29 +303,31 @@ Congelar decisões de arquitetura modular, contratos entre camadas, configuraç�
 1. Definir nome do módulo Go (`go.mod`, ex.: `github.com/Elienaldo/prociencia`).
 2. Documentar responsabilidade de cada pacote em `internal/`.
 3. Definir se web chama API via HTTP interno ou direto ao `service` (recomendado: **in-process** no monolith).
-4. Registrar ADRs curtas: chi vs stdlib only, driver SQL Server, migrações (goose/golang-migrate).
+4. Registrar ADRs em `docs/go/adr/` com `create-adr` (mín. 3): chi vs stdlib, driver SQL Server, migrações (goose/golang-migrate), web in-process (se aplicável).
 5. Mapear RF/BL do PRD para pacotes Go.
 6. Definir variáveis de ambiente (`DATABASE_URL`, `HTTP_ADDR`, `LOG_LEVEL`).
-7. Criar `docs/go/architecture.md` com diagramas C4 atualizados.
+7. Redigir `docs/go/architecture.md` como **TDD** com `technical-design-doc-creator` (seções obrigatórias + Migration Plan + Rollback para produção) e diagramas C4.
+8. Revisar tom/estrutura markdown com `docs-writer` (não substitui TDD/ADR).
 
 ### Critério de pronto (DoD)
 
-- [ ] Diagrama de contexto e containers (Go)
-- [ ] Tabela pacote → responsabilidade
-- [ ] Contrato REST `/api/*` congelado (breaking changes exigem versão)
-- [ ] ADRs registradas (mínimo 3)
-- [ ] Estratégia de migração de dados (se necessário) descrita
+- [x] Diagrama de contexto e containers (Go)
+- [x] Tabela pacote → responsabilidade
+- [x] Contrato REST `/api/*` congelado (breaking changes exigem versão)
+- [x] ADRs em arquivos separados em `docs/go/adr/` (mínimo 3)
+- [x] `architecture.md` segue estrutura TDD (contexto, escopo, solução, riscos, plano; rollback/migração)
+- [x] Estratégia de migração de dados (se necessário) descrita
 
 ### Prompt sugerido (Cursor Agent)
 
-> Fase MG-2 do PLANO-MIGRACAO-GO.md. Com base em PRD.md, architecture.md e docs/go/inventario-api-legado.md, redija docs/go/architecture.md: monólito modular Go, pacotes internal, ADRs, env vars e paridade REST. Não gere código ainda.
+> Fase MG-2 do PLANO-MIGRACAO-GO.md. Com base em PRD.md, architecture.md legado e docs/go/inventario-api-legado.md: use `technical-design-doc-creator` para redigir `docs/go/architecture.md` (TDD da migração Go); use `create-adr` para ADRs em `docs/go/adr/`; valide com `the-fool`; revise markdown com `docs-writer`. Não gere código ainda.
 
 ### Resultado obtido (preencher após executar)
 
-- **Data:**
-- **O que foi feito:**
-- **Arquivos gerados:**
-- **Pendências / bloqueios:**
+- **Data:** 2026-05-30
+- **O que foi feito:** TDD `architecture.md`; 4 ADRs (chi, go-mssqldb, golang-migrate, web in-process); módulo `github.com/Elienaldo/prociencia`; mapeamento RF/BL; pré-mortem no TDD. Detalhes em [`MG-2-RESULTADO.md`](./go/MG-2-RESULTADO.md).
+- **Arquivos gerados:** `docs/go/architecture.md`, `docs/go/adr/*`, `docs/go/MG-2-RESULTADO.md`
+- **Pendências / bloqueios:** DDL live na MG-4
 - **Próximo passo:** MG-3
 
 ---
@@ -541,7 +547,7 @@ Garantir regressão automatizada para API e fluxos web críticos.
 **Status:** [ ] Não iniciada · [ ] Em andamento · [ ] Concluída  
 **Prioridade:** P1  
 **Entregável:** `docs/go/deploy.md` + código .NET em `legacy/dotnet/`  
-**Skills:** `legacy-migration-planner`, `decomposition-planning-roadmap` · **MCP:** Azure
+**Skills:** `legacy-migration-planner`, `decomposition-planning-roadmap`, `technical-design-doc-creator` (Migration Plan + Rollback no cutover) · **MCP:** Azure
 
 ### Objetivo
 
@@ -658,12 +664,12 @@ Exemplo SQL MCP (sem secret no Git) — adicionar em `.cursor/mcp.json` quando M
 |------|----------------------------------------|
 | MG-0 | `docs-writer` (opcional) |
 | MG-1 | `codenavi`, `legacy-migration-planner`, `domain-analysis`, `modular-decomposition` |
-| MG-2 | `modular-design-principles`, `decomposition-planning-roadmap`, `the-fool`, `docs-writer` + Cursor `brainstorming`, `writing-plans` |
+| MG-2 | `technical-design-doc-creator`, `create-adr`, `modular-design-principles`, `decomposition-planning-roadmap`, `the-fool`, `docs-writer` (revisão) + Cursor `brainstorming`, `writing-plans` |
 | MG-3 | `coding-guidelines`, `modular-design-principles` |
 | MG-4 | `tactical-ddd`, `coding-guidelines` |
 | MG-5 | `frontend-blueprint`, `best-practices`, `chrome-devtools` |
 | MG-6 | `best-practices`, `chrome-devtools` |
-| MG-7 | `legacy-migration-planner`, `decomposition-planning-roadmap` |
+| MG-7 | `legacy-migration-planner`, `decomposition-planning-roadmap`, `technical-design-doc-creator` |
 | MG-8 | `docs-writer` |
 
 Fonte do catálogo: [agent-skills.techleads.club/skills](https://agent-skills.techleads.club/skills/)
@@ -688,7 +694,18 @@ Recomendadas para **adequação e decisões de arquitetura** na migração .NET 
 | [frontend-blueprint](https://agent-skills.techleads.club/skills/frontend-blueprint/) | MG-5 | Estrutura SSR (`html/template`), fluxos de página, não SPA |
 | [react-composition-patterns](https://agent-skills.techleads.club/skills/react-composition-patterns/) | — | **N/A** — stack Go SSR; não instalar para este projeto |
 
-**Ordem sugerida (MG-1 → MG-2):** `legacy-migration-planner` (research) → `modular-decomposition` (1–5) → `domain-analysis` → `modular-design-principles` + ADRs → `decomposition-planning-roadmap` → `the-fool` (validar decisões).
+**Ordem sugerida (MG-1 → MG-2):** `legacy-migration-planner` (research) → `modular-decomposition` (1–5) → `domain-analysis` → `modular-design-principles` → `technical-design-doc-creator` (TDD) + `create-adr` (decisões) → `decomposition-planning-roadmap` → `the-fool` (validar) → `docs-writer` (revisão).
+
+### Skills — Design técnico (categoria Creation)
+
+Documentação de **decisões e design antes da implementação**. Não substituir por `docs-writer` (README/inventários).
+
+| Skill | Fases | Uso na migração ProCiencia |
+|-------|-------|----------------------------|
+| [technical-design-doc-creator](https://agent-skills.techleads.club/skills/technical-design-doc-creator/) | MG-2, MG-7 | TDD em `docs/go/architecture.md`; Migration Plan + Rollback no cutover |
+| [create-adr](https://agent-skills.techleads.club/skills/create-adr/) | MG-2 | ADRs em `docs/go/adr/` (chi, driver SQL, migrações, web in-process) |
+
+**Divisão:** `technical-design-doc-creator` = documento completo (contexto, escopo, riscos, plano); `create-adr` = registro curto por decisão; `docs-writer` = polimento de markdown.
 
 ### Skills — Decisão
 
@@ -704,7 +721,7 @@ Recomendadas para **adequação e decisões de arquitetura** na migração .NET 
 | [codenavi](https://agent-skills.techleads.club/skills/codenavi/) | `... install --skill codenavi` | MG-1 | Navegar legado e `ServicoProCiencia` |
 | [best-practices](https://agent-skills.techleads.club/skills/best-practices/) | `... install --skill best-practices` | MG-5, MG-6 | Segurança e qualidade web |
 | [chrome-devtools](https://agent-skills.techleads.club/skills/chrome-devtools/) | `... install --skill chrome-devtools` | MG-5, MG-6 | Debug de páginas SSR |
-| [docs-writer](https://agent-skills.techleads.club/skills/docs-writer/) | `... install --skill docs-writer` | MG-0, MG-2, MG-8 | `architecture.md`, inventários, PRD/README, revisão de markdown |
+| [docs-writer](https://agent-skills.techleads.club/skills/docs-writer/) | `... install --skill docs-writer` | MG-0, MG-2, MG-8 | README, inventários, PRD; **revisão** de markdown — **não** TDD/ADR |
 
 ### Skills — Cursor (built-in / superpowers)
 
@@ -747,6 +764,7 @@ Criar na **MG-0** em `AGENTS.md` (raiz). Esboço:
 
 ## Skills (Tech Leads Club)
 - Arquitetura: legacy-migration-planner, modular-decomposition, modular-design-principles, domain-analysis, decomposition-planning-roadmap, the-fool
+- Design técnico: technical-design-doc-creator, create-adr
 - Dev/docs: coding-guidelines, codenavi, best-practices, docs-writer, chrome-devtools
 - Catálogo: https://agent-skills.techleads.club/skills/
 ```
@@ -771,5 +789,6 @@ Criar na **MG-0** em `AGENTS.md` (raiz). Esboço:
 |--------|------|-----------|
 | 1.0 | 2026-05-23 | Plano inicial MG-0 … MG-8 (documento apenas; execução manual fase a fase) |
 | 1.1 | 2026-05-27 | Skills de arquitetura Tech Leads Club + docs-writer + the-fool (Anexo A e fases MG-*) |
+| 1.2 | 2026-05-27 | Skills TDD (`technical-design-doc-creator`) + ADR (`create-adr`); MG-2 entregável com `docs/go/adr/` |
 
 **Para iniciar:** execute **MG-0** quando estiver pronto e autorize o agente explicitamente (ex.: *"Execute a fase MG-0 do PLANO-MIGRACAO-GO.md"*).

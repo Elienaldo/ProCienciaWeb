@@ -1,5 +1,12 @@
 {
   "mcpServers": {
+    "MSSQL": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-mssql"],
+      "env": {
+        "MSSQL_CONNECTION_STRING": "${env:MSSQL_CONNECTION_STRING}"
+      }
+    },
     "Azure MCP Server": {
       "command": "c:\\Users\\Elienaldo\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers\\node.exe",
       "args": [
